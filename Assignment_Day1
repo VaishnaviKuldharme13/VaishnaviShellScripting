@@ -1,0 +1,438 @@
+1. [admin@hostname01 Desktop]$ su -
+Password: 
+[root@hostname01 ~]# pwd
+/root
+
+2. [root@hostname01 ~]# echo $HOME
+/root
+
+
+3. [root@hostname01 ~]# echo $USER
+root
+[root@hostname01 ~]# whoami
+root
+
+4.
+[root@hostname01 ~]# ls -a
+.   anaconda-ks.cfg  .bash_logout   .bashrc  .config  Desktop    Downloads  Music     Public  .tcshrc    Videos    .xauthZX5NEe
+..  .bash_history    .bash_profile  .cache   .cshrc   Documents  .local     Pictures  .ssh    Templates  .viminfo
+5.[root@hostname01 ~]# ls $HOME
+anaconda-ks.cfg  Desktop  Documents  Downloads  Music  Pictures  Public  Templates  Videos
+
+6.
+[root@hostname01 ~]# ls -l
+total 4
+-rw-------. 1 root root 828 Aug 25  2022 anaconda-ks.cfg
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Desktop
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Documents
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Downloads
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Music
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Pictures
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Public
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Templates
+drwxr-xr-x. 2 root root   6 Aug 25  2022 Videos
+
+7.
+[root@hostname01 ~]# touch chap1 chap2 chapc chapD emp1 emp2
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap1  chap2  chapc  chapD  Desktop  Documents  Downloads  emp1  emp2  Music  Pictures  Public  Templates  Videos
+[root@hostname01 ~]# ls chap[0-9a-z]*
+chap1  chap2  chapc
+
+8.
+[root@hostname01 ~]# mkdir ~/C_prog
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chapc  C_prog     Downloads  Music     Templates
+chap1            chapD  Desktop    emp1       Pictures  Videos
+chap2            C_k    Documents  emp2       Public
+
+9.
+[root@hostname01 ~]# cd ~
+[root@hostname01 ~]# mkdir -p newdir newdirectory
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chapc  C_prog     Downloads  Music         Pictures   Videos
+chap1            chapD  Desktop    emp1       newdir        Public
+chap2            C_k    Documents  emp2       newdirectory  Templates
+
+
+10.
+[root@hostname01 ~]# ls -R ~
+/root:
+anaconda-ks.cfg  chapc  C_prog     Downloads  Music         Pictures   Videos
+chap1            chapD  Desktop    emp1       newdir        Public
+chap2            C_k    Documents  emp2       newdirectory  Templates
+
+/root/C_k:
+
+/root/C_prog:
+
+/root/Desktop:
+
+/root/Documents:
+
+/root/Downloads:
+
+/root/Music:
+
+/root/newdir:
+
+/root/newdirectory:
+
+/root/Pictures:
+
+/root/Public:
+
+/root/Templates:
+
+/root/Videos:
+[root@hostname01 ~]# tree
+.
+├── anaconda-ks.cfg
+├── chap1
+├── chap2
+├── chapc
+├── chapD
+├── C_k
+├── C_prog
+├── Desktop
+├── Documents
+├── Downloads
+├── emp1
+├── emp2
+├── Music
+├── newdir
+├── newdirectory
+├── Pictures
+├── Public
+├── Templates
+└── Videos
+
+12 directories, 7 files
+
+11.
+[root@hostname01 ~]# rmdir newdirectory
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chapc  C_prog     Downloads  Music     Public
+chap1            chapD  Desktop    emp1       newdir    Templates
+chap2            C_k    Documents  emp2       Pictures  Videos
+
+12.
+[root@hostname01 ~]# mkdir ~/temp
+
+13.
+[root@hostname01 ~]# rmdir newdir
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chapc  C_prog     Downloads  Music     temp
+chap1            chapD  Desktop    emp1       Pictures  Templates
+chap2            C_k    Documents  emp2       Public    Videos
+
+14.
+[root@hostname01 ~]# mkdir ~/temp/directorynew
+[root@hostname01 ~]# ls ~/temp
+directorynew
+15.
+[root@hostname01 ~]# cd ~
+16.
+[root@hostname01 ~]# cd temp/directorynew
+[root@hostname01 directorynew]# cd ..
+[root@hostname01 temp]# cd ..
+[root@hostname01 ~]# cd root/temp/directorynew
+-bash: cd: root/temp/directorynew: No such file or directory
+[root@hostname01 ~]# cd /root/temp/directorynew
+[root@hostname01 directorynew]# cd ..
+[root@hostname01 temp]# cd ..
+17.
+[root@hostname01 ~]# rmdir C_prog
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap1  chap2  chapc  chapD  C_k  Desktop  Documents  Downloads  emp1  emp2  Music  Pictures  Public  temp  Templates  Videos
+18.
+[root@hostname01 ~]# cd /etc
+[root@hostname01 etc]# ls
+accountsservice         crypto-policies          gcrypt        libaudit.conf             nftables           resolv.conf        sysconfig
+adjtime                 crypttab                 gdm           libblockdev               nsswitch.conf      rpc                sysctl.conf
+aliases                 csh.cshrc                geoclue       libibverbs.d              nsswitch.conf.bak  rpm                sysctl.d
+alsa                    csh.login                glvnd         libnl                     nvme               rsyncd.conf        systemd
+alternatives            cups                     gnupg         libpaper.d                openldap           rsyslog.conf       system-release
+anacrontab              cupshelpers              GREP_COLORS   libreport                 opt                rsyslog.d          system-release-cpe
+appstream.conf          dbus-1                   groff         libssh                    os-release         rwtab.d            terminfo
+asound.conf             dconf                    group         libuser.conf              ostree             samba              tmpfiles.d
+at.deny                 debuginfod               group-        locale.conf               PackageKit         sane.d             tpm2-tss
+audit                   default                  grub2.cfg     localtime                 pam.d              sasl2              trusted-key.key
+authselect              depmod.d                 grub.d        login.defs                papersize          security           tuned
+avahi                   dhcp                     gshadow       logrotate.conf            passwd             selinux            udev
+bash_completion.d       DIR_COLORS               gshadow-      logrotate.d               passwd-            services           udisks2
+bashrc                  DIR_COLORS.lightbgcolor  gss           lsm                       pbm2ppa.conf       sestatus.conf      updatedb.conf
+bindresvport.blacklist  dnf                      host.conf     lvm                       pinforc            setroubleshoot     UPower
+binfmt.d                dnsmasq.conf             hostname      machine-id                pkcs11             sgml               usb_modeswitch.conf
+bluetooth               dnsmasq.d                hosts         machine-info              pkgconfig          shadow             vconsole.conf
+brlapi.key              dracut.conf              hp            magic                     pki                shadow-            vimrc
+brltty                  dracut.conf.d            inittab       mailcap                   plymouth           shells             virc
+brltty.conf             egl                      inputrc       makedumpfile.conf.sample  pm                 skel               vmware-tools
+centos-release          enscript.cfg             iproute2      man_db.conf               pnm2ppa.conf       smartmontools      vulkan
+chromium                environment              iscsi         mcelog                    polkit-1           sos                wgetrc
+chrony.conf             ethertypes               issue         microcode_ctl             popt.d             speech-dispatcher  wireplumber
+chrony.keys             exports                  issue.d       mime.types                printcap           ssh                wpa_supplicant
+cifs-utils              favicon.png              issue.net     mke2fs.conf               profile            ssl                X11
+cni                     filesystems              kdump         modprobe.d                profile.d          sssd               xattr.conf
+cockpit                 firefox                  kdump.conf    modules-load.d            protocols          statetab.d         xdg
+containers              firewalld                kernel        motd                      pulse              subgid             xml
+cron.d                  flatpak                  keys          motd.d                    qemu-ga            subgid-            yum
+cron.daily              fonts                    keyutils      mtab                      ras                subuid             yum.conf
+cron.deny               foomatic                 krb5.conf     multipath                 rc.d               subuid-            yum.repos.d
+cron.hourly             fprintd.conf             krb5.conf.d   nanorc                    rc.local           sudo.conf
+cron.monthly            fstab                    ld.so.cache   netconfig                 redhat-release     sudoers
+crontab                 fuse.conf                ld.so.conf    NetworkManager            request-key.conf   sudoers.d
+cron.weekly             fwupd                    ld.so.conf.d  networks                  request-key.d      sudo-ldap.conf
+19.
+[root@hostname01 etc]# ls -a /usr/bin | grep "^\."
+.
+..
+[root@hostname01 etc]# 
+[root@hostname01 etc]# 
+20.
+
+[root@hostname01 etc]# echo -e" Hi! Good Morning everybody.\nWelcome to First exercise on unix.\nHope you enjoy doing assignments.">first.unix
+[root@hostname01 etc]# cat first.unix
+-e Hi! Good Morning everybody.\nWelcome to First exercise on unix.\nHope you enjoy doing assignments.
+[root@hostname01 etc]# echo -e "Hi! Good Morning everybody.\nWelcome to First exercise on unix.\nHope you enjoy doing assignments." > first.unix
+[root@hostname01 etc]# cat first.unix
+Hi! Good Morning everybody.
+Welcome to First exercise on unix.
+Hope you enjoy doing assignments.
+[root@hostname01 etc]# ccd ..
+bash: ccd: command not found...
+Similar command is: 'cd'
+[root@hostname01 etc]# cd ..
+[root@hostname01 /]# cd ~
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap1  chap2  chapc  chapD  C_k  Desktop  Documents  Downloads  emp1  emp2  Music  Pictures  Public  temp  Templates  Videos
+[root@hostname01 ~]# echo -e "Hi! Good Morning everybody.\nWelcome to First exercise on unix.\nHope you enjoy doing assignments." > first.unix
+[root@hostname01 ~]# cat first.unix
+Hi! Good Morning everybody.
+Welcome to First exercise on unix.
+Hope you enjoy doing assignments.
+21.
+[root@hostname01 ~]# cp ~/ first.unix ~/first.unics
+cp: target '/root/first.unics' is not a directory
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap2  chapD  Desktop    Downloads  emp2        Music     Public  Templates
+chap1            chapc  C_k    Documents  emp1       first.unix  Pictures  temp    Videos
+[root@hostname01 ~]# cp ~/ first.unix ~/first.unics
+cp: target '/root/first.unics' is not a directory
+[root@hostname01 ~]# cp ~/first.unix ~/first.unics
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap2  chapD  Desktop    Downloads  emp2         first.unix  Pictures  temp       Videos
+chap1            chapc  C_k    Documents  emp1       first.unics  Music       Public    Templates
+22.
+[root@hostname01 ~]# cat first.unix first.unics
+Hi! Good Morning everybody.
+Welcome to First exercise on unix.
+Hope you enjoy doing assignments.
+Hi! Good Morning everybody.
+Welcome to First exercise on unix.
+Hope you enjoy doing assignments.
+22.
+[root@hostname01 ~]# mkdir temp/newdire
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap2  chapD  Desktop    Downloads  emp2         first.unix  Pictures  temp       Videos
+chap1            chapc  C_k    Documents  emp1       first.unics  Music       Public    Templates
+[root@hostname01 ~]# ls temp
+directorynew  newdire
+23.
+[root@hostname01 ~]# cp ~/* temp/newdire
+cp: overwrite 'temp/newdire/anaconda-ks.cfg'? n
+cp: overwrite 'temp/newdire/chap1'? n
+cp: overwrite 'temp/newdire/chap2'? cp: overwrite 'temp/newdire/chapc'? cp: overwrite 'temp/newdire/chapD'? cp: -r not specified; omitting directory '/root/C_k'
+cp: -r not specified; omitting directory '/root/Desktop'
+cp: -r not specified; omitting directory '/root/Documents'
+cp: -r not specified; omitting directory '/root/Downloads'
+cp: overwrite 'temp/newdire/emp1'? cp: overwrite 'temp/newdire/emp2'? cp: overwrite 'temp/newdire/first.unics'? cp: overwrite 'temp/newdire/first.unix'? cp: -r not specified; omitting directory '/root/Music'
+cp: -r not specified; omitting directory '/root/Pictures'
+cp: -r not specified; omitting directory '/root/Public'
+cp: -r not specified; omitting directory '/root/temp'
+cp: -r not specified; omitting directory '/root/Templates'
+cp: -r not specified; omitting directory '/root/Videos'
+
+[root@hostname01 ~]# cd temp
+[root@hostname01 temp]# ls
+directorynew  newdire
+[root@hostname01 temp]# cd directorynew
+[root@hostname01 directorynew]# ls
+[root@hostname01 directorynew]# cd ..
+[root@hostname01 temp]# cd newdire
+[root@hostname01 newdire]# ls
+anaconda-ks.cfg  chap1  chap2  chapc  chapD  emp1  emp2  first.unics  first.unix
+[root@hostname01 newdire]# cd ~
+25.
+[root@hostname01 ~]# mv ~/first.unix temp/second.unix
+[root@hostname01 ~]# ls temp
+directorynew  newdire  second.unix
+[root@hostname01 ~]# cat temp/second.unix
+Hi! Good Morning everybody.
+Welcome to First exercise on unix.
+Hope you enjoy doing assignments.
+26.
+[root@hostname01 ~]# rm first.unix
+rm: cannot remove 'first.unix': No such file or directory
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap2  chapD  Desktop    Downloads  emp2         Music     Public  Templates
+chap1            chapc  C_k    Documents  emp1       first.unics  Pictures  temp    Videos
+[root@hostname01 ~]# rm first.unics
+rm: remove regular file 'first.unics'? y
+27.
+[root@hostname01 ~]# cd temp
+[root@hostname01 temp]# rm*
+bash: rm*: command not found...
+[root@hostname01 temp]# rm*.
+bash: rm*.: command not found...
+[root@hostname01 temp]# rm *
+rm: cannot remove 'directorynew': Is a directory
+rm: cannot remove 'newdire': Is a directory
+rm: remove regular file 'second.unix'? n 
+28.
+[root@hostname01 temp]# mv *[aco] ~/
+mv: cannot stat '*[aco]': No such file or directory
+[root@hostname01 temp]# ls
+directorynew  newdire  second.unix
+[root@hostname01 temp]# cd ~
+[root@hostname01 ~]# mv *[aco] ~/
+mv: 'chapc' and '/root/chapc' are the same file
+mv: 'Music' and '/root/Music' are the same file
+mv: 'Public' and '/root/Public' are the same file
+29.
+[root@hostname01 ~]# cp *UNIX ~/temp/
+cp: cannot stat '*UNIX': No such file or directory
+30.
+[root@hostname01 ~]# rm -r ~/temp
+rm: descend into directory '/root/temp'? y
+rm: descend into directory '/root/temp/newdire'? y
+rm: remove regular empty file '/root/temp/newdire/chapD'? y
+rm: remove regular empty file '/root/temp/newdire/emp1'? y
+rm: remove regular empty file '/root/temp/newdire/emp2'? y
+rm: remove regular file '/root/temp/newdire/first.unics'? y
+rm: remove regular file '/root/temp/newdire/first.unix'? y
+rm: remove directory '/root/temp/newdire'? y
+rm: remove regular file '/root/temp/second.unix'? y
+rm: remove directory '/root/temp'? y
+[root@hostname01 ~]# ls
+anaconda-ks.cfg  chap1  chap2  chapc  chapD  C_k  Desktop  Documents  Downloads  emp1  emp2  Music  Pictures  Public  Templates  Videos
+[root@hostname01 ~]# cp
+cp: missing file operand
+Try 'cp --help' for more information.
+31.
+[root@hostname01 ~]# cp /temp
+cp: missing destination file operand after '/temp'
+Try 'cp --help' for more information.
+[root@hostname01 ~]# mv
+mv: missing file operand
+Try 'mv --help' for more information.
+[root@hostname01 ~]# mv first.unix
+mv: missing destination file operand after 'first.unix'
+Try 'mv --help' for more information.
+32.
+[root@hostname01 ~]# cat > friends
+Madhu	694465	09/07/68
+Jamil	554467	08/09/67
+Ajay	567576	01/04/66
+Mano	7820077	09/07/68
+David	8281292	09/09/60
+simmi	7865425	12/12/70
+Navin	2223411	30/05/68
+33.
+[root@hostname01 ~]# cat friends
+Madhu	694465	09/07/68
+Jamil	554467	08/09/67
+Ajay	567576	01/04/66
+Mano	7820077	09/07/68
+David	8281292	09/09/60
+simmi	7865425	12/12/70
+Navin	2223411	30/05/68
+34.
+[root@hostname01 ~]# cat friends > newfriends
+35.
+[root@hostname01 ~]# cat friends newfriends
+Madhu	694465	09/07/68
+Jamil	554467	08/09/67
+Ajay	567576	01/04/66
+Mano	7820077	09/07/68
+David	8281292	09/09/60
+simmi	7865425	12/12/70
+Navin	2223411	30/05/68
+Madhu	694465	09/07/68
+Jamil	554467	08/09/67
+Ajay	567576	01/04/66
+Mano	7820077	09/07/68
+David	8281292	09/09/60
+simmi	7865425	12/12/70
+Navin	2223411	30/05/68
+36.
+[root@hostname01 ~]# who
+admin    seat0        2025-01-27 12:19 (login screen)
+admin    tty2         2025-01-27 12:19 (tty2)
+[root@hostname01 ~]# who
+admin    seat0        2025-01-27 12:19 (login screen)
+admin    tty2         2025-01-27 12:19 (tty2)
+[root@hostname01 ~]# who > users
+[root@hostname01 ~]# cat users
+admin    seat0        2025-01-27 12:19 (login screen)
+admin    tty2         2025-01-27 12:19 (tty2)
+37.
+[root@hostname01 ~]# cat friends >> users
+[root@hostname01 ~]# cat users
+admin    seat0        2025-01-27 12:19 (login screen)
+admin    tty2         2025-01-27 12:19 (tty2)
+Madhu	694465	09/07/68
+Jamil	554467	08/09/67
+Ajay	567576	01/04/66
+Mano	7820077	09/07/68
+David	8281292	09/09/60
+simmi	7865425	12/12/70
+Navin	2223411	30/05/68
+38.
+[root@hostname01 ~]# date
+Mon Jan 27 07:45:53 PM IST 2025
+39.
+[root@hostname01 ~]# cal 1 2003
+    January 2003    
+Su Mo Tu We Th Fr Sa
+          1  2  3  4
+ 5  6  7  8  9 10 11
+12 13 14 15 16 17 18
+19 20 21 22 23 24 25
+26 27 28 29 30 31   
+     40. 
+[root@hostname01 ~]# date "+%"
+%
+[root@hostname01 ~]# date "+m"
+m
+[root@hostname01 ~]# date "+%m"
+01
+[root@hostname01 ~]# date "+%D"
+01/27/25
+[root@hostname01 ~]# date "+%/%Training Activity"
+%/20:02:12raining Activity
+[root@hostname01 ~]# date "+%Training Activity"
+20:07:37raining Activity
+[root@hostname01 ~]# date "+%r"
+8:10:23 PM
+
+1.
+[root@hostname01 ~]# man ls | col -b > lsdoc
+[root@hostname01 ~]# less lsdoc
+[root@hostname01 ~]# echo "hello i am vaishnavi" > data.txt
+[root@hostname01 ~]# cat data.txt
+hello i am vaishnavi
+[root@hostname01 ~]# rm data.txt
+rm: remove regular file 'data.txt'? y
+[root@hostname01 ~]# cat data.txt 2> errorlog.txt
+[root@hostname01 ~]# cat errorlog.txt
+cat: data.txt: No such file or directory
+[root@hostname01 ~]# cat > data.txt
+hello world
+[root@hostname01 ~]# cat errorlog.txt
+cat: data.txt: No such file or directory
+[root@hostname01 ~]# cat data.txt 2> errorlog.txt
+hello world
+[root@hostname01 ~]# cat errorlog.txt
+
+
