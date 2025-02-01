@@ -72,16 +72,38 @@ Noninteractive Editing using sed
 ---------------------------------
 
 1. Copy the file  /etc/syslog.conf to the current directory as syslog.conf. Insert blank line after every line in the file syslog.conf.
+cp /etc/syslog.conf ./syslog.conf
 
 2. Remove the blank lines from the file syslog.conf
+sed '/^$/d' syslog.conf > temp && mv temp syslog.conf
+
 3. Print the first 3 lines of the file syslog.conf
+sed -n '1,3p' /etc/syslog.conf
+
 4. Print lines from 3rd to 5th from the file /etc/syslog.conf
+sed -n '3,5p' /etc/syslog.conf
+
 5. Insert some spaces in the beginning(leading spaces) & end of each line(trailing spaces) manually using vi editor
+:%s/$/  /
+:%s/^/  /
+
 6. Through sed command remove the leading spaces & trailing spaces in the above file
+sed -i 's/ *$//' syslog.conf
+sed -i 's/^ *//' syslog.conf
+
 7. Substitute kern with kernel in the file syslog.conf & then substitute back to kern.
+sed -i 's/\bkernel\b/kern/g' syslog.conf
+sed -i 's/\bkern\b/kernel/g' syslog.conf
+
 8. Search for the lines containing the word kern & write those lines into a file kern.conf
+grep '\bkern\b' syslog.conf > kern.conf
+
 9. Print all the lines of the file syslog.conf except the 3rd line.
+sed '2d' syslog.conf
+
 10. Delete each line that contains the pattern kern
+sed '2d' syslog.conf
+
 
 Create a file “Employee.dat” with text as follows
 
@@ -216,6 +238,14 @@ JersyNo|Name,surname |linebackers|Weight | Date | Experience| Country
 6. Create an awk program which counts and at the end displays the following data: 
 	No. of Bash Shell users:
 	No. of Bourne Shell Users:
+awk -F':' '
+/\/bin\/bash$/ {bash_count++}
+/\/bin\/sh$/ {sh_count++}
+END {
+    print "Number of Bash shell users:", bash_count
+    print "Number of Bourne shell users:", sh_count
+}' /etc/passwd
+
 7. Create an awk program which displays only user name and the corresponding user id as in the following Report Format :
 	User Name	User ID
 	root		0
@@ -300,6 +330,7 @@ sgx:x:979:
 admin:x:1000:
 
 9. Create an awk program which will display the file name and the size of the files in the current directory where the file size is more than 100 bytes
+find . -maxdepth 1 -type f -size +100c -exec ls -lh {} + | awk '{print $9, $5}'
 
 10. Using awk, print the user id, login shell & home directory of the user root.
 [root@hostname01 ~]# awk -F":" '/^root:/ {print "USER ID:", $3, "\nHomedirectory", $6, "\nLOGIN shell", $7, "\n"}' /etc/passwd
@@ -361,3 +392,5 @@ USER ID: 70
 USERNAME avahi 
 
 12. Using awk print the file name, owner and size of all the files in the /etc directory
+find /etc -type f -exec ls -lh {} + | awk '{print "File Name:", $9, "\nOwner:", $3, "\nSize:", $5, "\n"}'
+
