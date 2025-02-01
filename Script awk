@@ -92,11 +92,10 @@ echo "Total number of users logged in: $TOTAL_USERS"
 
 
 3.
-
 #!/bin/bash
 
 # Input file
-input_file="employee_records.txt"
+input_file="emp_records.txt"
 
 # Output files
 unix_report="unix_report.txt"
@@ -164,4 +163,6 @@ echo "Percentage of students passed in UNIX: $unix_pass_percentage%" >> "$unix_r
 
 echo "Reports generated:"
 echo "1. UNIX Subject Report: $unix_report"
+echo "2. Summary Report: $summary_report"
+
 echo "2. Summary Report: $summary_report"
