@@ -1,0 +1,167 @@
+2. [admin@hostname01 Desktop]$ egrep "[a-zA-Z]*[ei]" student.dat
+rameshchandra mane 79 A+
+suresh bahrti 88 A++
+rajat bhosle 25 C
+suraj pancholi 65 A
+manoj pandey 56 B
+3. [admin@hostname01 Desktop]$ egrep " 65 " student.dat
+suraj pancholi 65 A
+
+4. [admin@hostname01 Desktop]$ egrep " sharma| varma" student.dat
+manoj sharma 55 B
+rahul varma 87 A++
+
+5.  [admin@hostname01 Desktop]$ egrep " A$" student.dat
+suraj pancholi 65 A
+
+10. [admin@hostname01 Desktop]$ egrep " [0-9]*6" student.dat
+suraj pancholi 65 A
+manoj pandey 56 B
+
+1.
+#!/bin/bash
+input_file="emp_scores.txt"
+
+unix_file=$(mktemp)
+dsa_file=$(mktemp)
+
+# Extract records
+grep -i 'Unix' "$input_file" > "$unix_file"
+grep -i 'DSA' "$input_file" > "$dsa_file"
+
+# Function
+calculate_stats() {
+    local subject_file=$1
+    local subject_name=$2
+
+    # Calculate average score
+    total_score=$(awk '{sum += $4} END {print sum}' "$subject_file")
+    record_count=$(wc -l < "$subject_file")
+    if [ "$record_count" -gt 0 ]; then
+        average_score=$(echo "scale=2; $total_score / $record_count" | bc)
+    else
+        average_score=0
+    fi
+
+   
+    echo "Average score in $subject_name: $average_score"
+
+    
+    echo "Top 2 performers in $subject_name:"
+    awk '{print $2, $4}' "$subject_file" | sort -k2,2nr | head -n 2 | nl
+}
+
+# Calculate and display statistics for Unix
+calculate_stats "$unix_file" "Unix"
+
+# Calculate and display statistics for DSA
+calculate_stats "$dsa_file" "DSA" 
+rm "$unix_file" "$dsa_file"
+
+ [admin@hostname01 Desktop]$ chmod +x score.sh
+
+[admin@hostname01 Desktop]$ ./score.sh
+
+2.
+#!/bin/bash
+
+# Define company name
+COMPANY_NAME="Your Company Name"
+
+# Get current date
+CURRENT_DATE=$(date +"%Y-%m-%d %H:%M:%S")
+
+# Print header
+echo "$COMPANY_NAME"
+echo "User Login Report - $CURRENT_DATE"
+echo "---------------------------------"
+echo -e "Username\tLogged-in-time\t\tTerminal"
+
+# Generate report
+who --time | sort -k4,5 | awk '{printf "%-8s\t%s %s\t%s\n", $1, $4, $5, $2}'
+
+# Count total number of logged-in users
+TOTAL_USERS=$(who | wc -l)
+
+# Print footer
+echo "---------------------------------"
+echo "Total number of users logged in: $TOTAL_USERS"
+[admin@hostname01 Desktop]$ chmod +x report.sh
+
+[admin@hostname01 Desktop]$ ./report.sh
+
+
+3.
+
+#!/bin/bash
+
+# Input file
+input_file="employee_records.txt"
+
+# Output files
+unix_report="unix_report.txt"
+summary_report="summary_report.txt"
+
+# Total marks for UNIX subject
+total_marks_unix=50
+
+# Header for UNIX subject report
+echo "Total Marks for UNIX: $total_marks_unix" > "$unix_report"
+echo "EmpName:ObtMarks:MarksOutof35" >> "$unix_report"
+
+# Initialize counters and arrays
+total_participants=0
+total_passed=0
+declare -A scores
+
+# Process the input file
+while IFS=':' read -r emp_name emp_id subject obt_marks tot_marks result; do
+    if [[ $subject == "UNIX" ]]; then
+        # Calculate marks out of 35
+        marks_out_of_35=$(echo "scale=2; ($obt_marks / $total_marks_unix) * 35" | bc)
+        # Append to UNIX report
+        echo "$emp_name:$obt_marks:$marks_out_of_35" >> "$unix_report"
+    fi
+
+    # Accumulate total scores for ranking
+    total_score=$((total_score + obt_marks))
+    scores["$emp_name"]=$((scores["$emp_name"] + obt_marks))
+
+    # Count total participants and passed participants
+    ((total_participants++))
+    if [[ $result == "Pass" ]]; then
+        ((total_passed++))
+    fi
+done < "$input_file"
+
+# Calculate percentage result for UNIX subject
+total_unix_students=$(grep -c ":UNIX:" "$input_file")
+unix_passed_students=$(grep ":UNIX:.*:Pass" "$input_file" | wc -l)
+if (( total_unix_students > 0 )); then
+    unix_pass_percentage=$(echo "scale=2; ($unix_passed_students / $total_unix_students) * 100" | bc)
+else
+    unix_pass_percentage=0
+fi
+
+# Append percentage result to UNIX report
+echo "Percentage of students passed in UNIX: $unix_pass_percentage%" >> "$unix_report"
+
+# Generate summary report
+{
+    echo "Total number of participants appeared: $total_participants"
+    echo "Total number of participants passed: $total_passed"
+
+    # Sort participants by total score and get top 3
+    echo "Top 3 Participants:"
+    for rank in 1 2 3; do
+        top_scorer=$(for name in "${!scores[@]}"; do echo "$name:${scores[$name]}"; done | sort -t':' -k2 -nr | sed -n "${rank}p")
+        if [[ -n $top_scorer ]]; then
+            IFS=':' read -r name score <<< "$top_scorer"
+            echo "Rank $rank: $name with total score $score"
+        fi
+    done
+} > "$summary_report"
+
+echo "Reports generated:"
+echo "1. UNIX Subject Report: $unix_report"
+echo "2. Summary Report: $summary_report"
