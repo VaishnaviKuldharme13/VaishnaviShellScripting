@@ -1,0 +1,363 @@
+Pattern Matching using egrep
+----------------------------
+Create a file student.dat with following data
+
+name surname marks grade
+rameshchandra mane 79 A+
+suresh bahrti 88 A++
+rajat bhosle 25 C
+suraj pancholi 65 A
+manoj sharma 55 B
+rahul varma 87 A++
+manoj pandey 56 B
+suraj rajguru 45 B
+
+[root@hostname01 ~]# vim student.dat
+
+1. Display all names starting with s
+[root@hostname01 ~]# egrep "^s" student.dat
+suresh bahrti 88 A++
+suraj pancholi 65 A
+suraj rajguru 45 B
+
+2. Display whose name ending with e or i
+
+3. Display who got 65 marks
+[root@hostname01 ~]# egrep "65" student.dat
+suraj pancholi 65 A
+
+4. Display data of records whose surname is Sharma is varma
+[root@hostname01 ~]# egrep "sharma | varma" student.dat
+manoj sharma 55 B
+rahul varma 87 A++
+
+5. Display who got grade A only
+[root@hostname01 ~]# egrep "A$" student.dat
+suraj pancholi 65 A
+
+6. Display whose 3rd charcter of name is r
+[root@hostname01 ~]# egrep "^..r" student.dat |cut -d' ' -f1,2
+suresh bahrti
+suraj pancholi
+suraj rajguru
+
+7. Display whose second character is a or r or t
+[root@hostname01 ~]# egrep "^.[art]" student.dat |cut -d' ' -f1,2
+rameshchandra mane
+rajat bhosle
+manoj sharma
+rahul varma
+manoj pandey
+
+8. Display names whose length is exactly 5 character
+[root@hostname01 ~]# egrep "^[a-zA-Z]{5}\b" student.dat
+rajat bhosle 25 C
+suraj pancholi 65 A
+manoj sharma 55 B
+rahul varma 87 A++
+manoj pandey 56 B
+suraj rajguru 45 B
+
+9. Display names whose length is more than 6 character
+[root@hostname01 ~]# egrep "^[a-zA-Z]{6,}" student.dat
+
+10. Display name whose marks are ending with 6
+
+
+[root@hostname01 ~]# egrep "6$" student.dat
+11. Display grade with A+ only
+[root@hostname01 ~]# egrep "A\+$" student.dat
+
+Noninteractive Editing using sed
+---------------------------------
+
+1. Copy the file  /etc/syslog.conf to the current directory as syslog.conf. Insert blank line after every line in the file syslog.conf.
+
+2. Remove the blank lines from the file syslog.conf
+3. Print the first 3 lines of the file syslog.conf
+4. Print lines from 3rd to 5th from the file /etc/syslog.conf
+5. Insert some spaces in the beginning(leading spaces) & end of each line(trailing spaces) manually using vi editor
+6. Through sed command remove the leading spaces & trailing spaces in the above file
+7. Substitute kern with kernel in the file syslog.conf & then substitute back to kern.
+8. Search for the lines containing the word kern & write those lines into a file kern.conf
+9. Print all the lines of the file syslog.conf except the 3rd line.
+10. Delete each line that contains the pattern kern
+
+Create a file “Employee.dat” with text as follows
+
+James 76382 ECAP Chennai
+John 34228 GRIT Hyderabad
+Peter 22321 GE Bangalore
+Albert 32342 GRIT Pune
+Mathew 23222 ECAP Mumbai
+Richard 23232 ACS Pune
+
+1. Write a sed command to print only the lines starting at line 2 and ending with the letters “Pune”
+[root@hostname01 Desktop]# sed -n '2,${/Pune/p}' Employee.dat
+Albert 32342 GRIT Pune
+Richard 23232 ACS Pune
+2. Write a sed command that will display the top 5 lines from the file
+
+[root@hostname01 Desktop]# sed -n '1,5p' Employee.dat
+James 76382 ECAP Chennai
+John 34228 GRIT Hyderabad
+Peter 22321 GE Bangalore
+Albert 32342 GRIT Pune
+Mathew 23222 ECAP Mumbai
+
+3. Write a sed command that will substitute the word “Chennai” for "Pune" used in all instance of the word
+[root@hostname01 Desktop]# sed 's/Pune/Chennai/' Employee.dat
+James 76382 ECAP Chennai
+John 34228 GRIT Hyderabad
+Peter 22321 GE Bangalore
+Albert 32342 GRIT Chennai
+Mathew 23222 ECAP Mumbai
+Richard 23232 ACS Chennai
+
+
+
+4. Write a sed command that will replace occurrence of the character e with the string UNIX in all lines. (Use –e option)
+[root@hostname01 Desktop]# 
+[root@hostname01 Desktop]# sed 's/e/UNIX/g' Employee.dat
+JamUNIXs 76382 ECAP ChUNIXnnai
+John 34228 GRIT HydUNIXrabad
+PUNIXtUNIXr 22321 GE BangalorUNIX
+AlbUNIXrt 32342 GRIT PunUNIX
+MathUNIXw 23222 ECAP Mumbai
+Richard 23232 ACS PunUNIX
+
+
+5. Write a sed command to delete blank lines
+[root@hostname01 Desktop]# sed -e '/^$d' Employee.dat
+6. Write a sed command to delete lines from 3 to 5
+root@hostname01 Desktop]# sed '3,5d' Employee.dat
+James 76382 ECAP Chennai
+John 34228 GRIT Hyderabad
+Richard 23232 ACS Pune
+
+7. Create a new file “ECAP.dat which has only the lines that contain the word
+“ECAP” from Employee.dat
+root@hostname01 Desktop]# sed -n '/ECAP/p' Employee.dat > ECAP.dat
+
+
+Report Generation using awk
+---------------------------
+
+1. Consider the results are stored in following format:
+
+EmpID Name Subject Marks(/50)
+E001 Nilesh Unix 30
+E002 Nilesh DSA 20
+Like these you have 10 records ( 5 of DSA and 5 of Unix)
+Calculate the avg score secured in Unix and DSA and the first 2 topers in Unix and DSA each.
+
+2. Write a script to get the report of the users logged on to the System in
+the following formats. (Records should be sorted on logging time.)
+Header must include company name and Date
+Records in the format
+Username Logged-in-time Terminal
+Tailor should include total number of the users logged in.
+
+3. Consider a text file containing the records (colon separated fields) in the format:
+EmpName:EmpId:Subject:ObtMarks:TotMarks:Result
+Write a script to get the result of “UNIX” Subject in the format (Considering the data file has TotMarks=50 for UNIX)
+
+EmpName:ObtMark:MarksOutof35
+The header of the report must contain total marks and the tailor must
+specify the percentage result for that subject.
+Also generate another summary result containing total number of
+participants appeared, total number of participants passed, and Name of
+the participants ranked Ist IInd, IIIrd with their total score.
+
+4. Consider the Arizona roaster as an input data file for this exercise. Using
+any combination of the text-processing utilities listed below, write a oneline shell command that performs each of the following tasks
+vim Roaster #for dta
+(a) reports the number of players on the roster
+awk 'NR' Roaster | wc -l
+11
+(b) displays the roster in order by jersey number
+[root@hostname01 ~]# sort -k1,1n Roaster
+11 | Fitzgerald,Larry |WR6'04" |229| 08/31/1983 |10 |Pittsburgh
+20 | Anderson, Damien |RB 5'10" | 212 | 07/17/1979 | 3 |Northwestern
+30 | Ayanbadejo, Oba |FB 6'02" | 235 | 03/05/1975 | 5 |San Diego
+35 | Carter,Dyshod |DB5'10" |197 | 06/18/1978 |2 | Kansas State
+52 | Fisher,Levar |OLB6'01" |235 | 07/02/1979 |3| NorthCarolina
+63 |Garcia,Frank |G6'02" | 302| 01/28/1972|10|Washington
+64 |Grace,Steven |C6'03" |295| 02/13/1979 | 3|Arizona
+81 | Boldin,Anquan |WR6'01" |215 | 10/03/1980 |2 | FloridaState
+84 |Hamilton,Lawrence |WR6'03" |205 |08/31/1980 |2|StephenF.Austin
+91 | Bryant,Wendell |DT6'04" |303| 09/12/1980 | 3 | Wisconsin
+92 | Berry,Bert |DE6'03" | 250| 08/15/1975 | 7 |NotreDame
+
+(c) displays the roster in alphabetical order by surname
+[root@hostname01 ~]# sort -k1,2 Roaster
+(d) displays the heaviest five players
+[root@hostname01 ~]# sort -k1,1nr Roaster | head -n 5
+(e) displays all players who attended Wisconsin
+grep -i 'Wisconsin' Roaster
+
+The Roaster is given below:-
+JersyNo|Name,surname |linebackers|Weight | Date | Experience| Country
+20 | Anderson, Damien |RB 5'10" | 212 | 07/17/1979 | 3 |Northwestern
+30 | Ayanbadejo, Oba |FB 6'02" | 235 | 03/05/1975 | 5 |San Diego
+92 | Berry,Bert |DE6'03" | 250| 08/15/1975 | 7 |NotreDame
+81 | Boldin,Anquan |WR6'01" |215 | 10/03/1980 |2 | FloridaState
+91 | Bryant,Wendell |DT6'04" |303| 09/12/1980 | 3 | Wisconsin
+35 | Carter,Dyshod |DB5'10" |197 | 06/18/1978 |2 | Kansas State
+52 | Fisher,Levar |OLB6'01" |235 | 07/02/1979 |3| NorthCarolina
+11 | Fitzgerald,Larry |WR6'04" |229| 08/31/1983 |10 |Pittsburgh
+63 |Garcia,Frank |G6'02" | 302| 01/28/1972|10|Washington
+64 |Grace,Steven |C6'03" |295| 02/13/1979 | 3|Arizona
+84 |Hamilton,Lawrence |WR6'03" |205 |08/31/1980 |2|StephenF.Austin
+
+5. Create an awk program which will displays the total number of users in the system.
+[root@hostname01 ~]# awk -F ':' 'END {print NR}' /etc/passwd
+37
+6. Create an awk program which counts and at the end displays the following data: 
+	No. of Bash Shell users:
+	No. of Bourne Shell Users:
+7. Create an awk program which displays only user name and the corresponding user id as in the following Report Format :
+	User Name	User ID
+	root		0
+	daemon		1
+	---------------------
+	Total Number of users :
+[root@hostname01 ~]# awk -F":" 'BEGIN{print"USERNAME  ID"}
+{
+print $1 "\t" $3}
+END{
+print "Total users ",NR}' /etc/passwd
+USERNAME  ID
+root	0
+bin	1
+daemon	2
+adm	3
+lp	4
+sync	5
+shutdown	6
+halt	7
+mail	8
+operator	11
+games	12
+ftp	14
+nobody	65534
+systemd-coredump	999
+dbus	81
+polkitd	998
+avahi	70
+rtkit	172
+libstoragemgmt	997
+geoclue	996
+tss	59
+cockpit-ws	995
+colord	993
+sssd	992
+setroubleshoot	991
+pipewire	990
+flatpak	989
+clevis	988
+gdm	42
+gnome-initial-setup	987
+sshd	74
+chrony	986
+dnsmasq	985
+tcpdump	72
+systemd-oom	978
+admin	1000
+vinsys	1001
+Total users  37
+
+8. Create an awk program which prints the alternate lines like 2nd , 4th , 6th etc... from the file /etc/group.
+[root@hostname01 ~]# awk 'NR %2==0' /etc/group
+bin:x:1:
+sys:x:3:
+tty:x:5:
+lp:x:7:
+kmem:x:9:
+cdrom:x:11:
+man:x:15:
+floppy:x:19:
+tape:x:33:
+ftp:x:50:
+audio:x:63:
+nobody:x:65534:
+utempter:x:35:
+kvm:x:36:
+systemd-journal:x:190:
+dbus:x:81:
+avahi:x:70:
+ssh_keys:x:994:
+libstoragemgmt:x:993:
+tss:x:59:clevis
+colord:x:989:
+setroubleshoot:x:987:
+flatpak:x:985:
+brlapi:x:983:
+gnome-initial-setup:x:982:
+chrony:x:981:
+dnsmasq:x:980:
+sgx:x:979:
+admin:x:1000:
+
+9. Create an awk program which will display the file name and the size of the files in the current directory where the file size is more than 100 bytes
+
+10. Using awk, print the user id, login shell & home directory of the user root.
+[root@hostname01 ~]# awk -F":" '/^root:/ {print "USER ID:", $3, "\nHomedirectory", $6, "\nLOGIN shell", $7, "\n"}' /etc/passwd
+11. Using awk print the user id, name & login shell of the system users [ System users are those whose uid is less than 500 ]
+[root@hostname01 ~]# awk -F":" '$3<500 {print "USER ID:", $3, "\nUSERNAME", $1, "\nLOGIN ", $7, "\n"}' /etc/passwd
+USER ID: 0 
+USERNAME root 
+LOGIN  /bin/bash 
+
+USER ID: 1 
+USERNAME bin 
+LOGIN  /sbin/nologin 
+
+USER ID: 2 
+USERNAME daemon 
+LOGIN  /sbin/nologin 
+
+USER ID: 3 
+USERNAME adm 
+LOGIN  /sbin/nologin 
+
+USER ID: 4 
+USERNAME lp 
+LOGIN  /sbin/nologin 
+
+USER ID: 5 
+USERNAME sync 
+LOGIN  /bin/sync 
+
+USER ID: 6 
+USERNAME shutdown 
+LOGIN  /sbin/shutdown 
+
+USER ID: 7 
+USERNAME halt 
+LOGIN  /sbin/halt 
+
+USER ID: 8 
+USERNAME mail 
+LOGIN  /sbin/nologin 
+
+USER ID: 11 
+USERNAME operator 
+LOGIN  /sbin/nologin 
+
+USER ID: 12 
+USERNAME games 
+LOGIN  /sbin/nologin 
+
+USER ID: 14 
+USERNAME ftp 
+LOGIN  /sbin/nologin 
+
+USER ID: 81 
+USERNAME dbus 
+LOGIN  /sbin/nologin 
+
+USER ID: 70 
+USERNAME avahi 
+
+12. Using awk print the file name, owner and size of all the files in the /etc directory
